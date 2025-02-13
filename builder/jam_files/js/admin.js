@@ -105,7 +105,7 @@ function Events0() { // app_builder
 				'f_alias', 'f_login', 'f_password', 'f_host', 'f_port', 'f_encoding', 'f_dsn'];
 			task.sys_tasks.set_edit_fields(fields);
 			task.server('server_set_project_langage', [task.sys_params.f_language.value]);
-			task.sys_tasks.edit_options.title = task.language.project_params + task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/admin/database.html');
+			task.sys_tasks.edit_options.title = task.language.project_params + task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/admin/project/database.html');
 			task.sys_tasks.edit_record();
 			return;
 		}
