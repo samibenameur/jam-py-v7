@@ -4605,7 +4605,17 @@ function Events15() { // app_builder.catalogs.sys_fields_editor
 			item.on_field_select_value = function(field, lookup_item) {
 				// lookup_item.view_form.find('.form-footer').hide();
 				if (field.field_name === 'edit_details' || field.field_name === 'view_detail') {
-					lookup_item.set_where({parent: item.item.id.value});
+					//type item
+					if (item.item.type_id.value == 10) {
+						console.log('Item');
+						lookup_item.set_where({parent: item.item.id.value});
+					}
+					//detail
+					if (item.item.type_id.value == 14) {
+						console.log('Detail');
+						lookup_item.set_where({parent: item.item.table_id.value});
+					}
+					
 					lookup_item.view_options.fields = ['f_item_name'];
 					lookup_item.set_order_by(['f_item_name']);
 					lookup_item.on_after_scroll = undefined;
