@@ -105,7 +105,7 @@ function Events0() { // app_builder
 				'f_alias', 'f_login', 'f_password', 'f_host', 'f_port', 'f_encoding', 'f_dsn'];
 			task.sys_tasks.set_edit_fields(fields);
 			task.server('server_set_project_langage', [task.sys_params.f_language.value]);
-			task.sys_tasks.edit_options.title = task.language.project_params + task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/admin/database.html');
+			task.sys_tasks.edit_options.title = task.language.project_params + task.help_badge('https://jampy-docs-v7.readthedocs.io/en/latest/admin/project/database.html');
 			task.sys_tasks.edit_record();
 			return;
 		}
@@ -4605,7 +4605,17 @@ function Events05() { // app_builder.catalogs.sys_fields_editor
 			item.on_field_select_value = function(field, lookup_item) {
 				// lookup_item.view_form.find('.form-footer').hide();
 				if (field.field_name === 'edit_details' || field.field_name === 'view_detail') {
-					lookup_item.set_where({parent: item.item.id.value});
+					//type item
+					if (item.item.type_id.value == 10) {
+						console.log('Item');
+						lookup_item.set_where({parent: item.item.id.value});
+					}
+					//detail
+					if (item.item.type_id.value == 14) {
+						console.log('Detail');
+						lookup_item.set_where({parent: item.item.table_id.value});
+					}
+					
 					lookup_item.view_options.fields = ['f_item_name'];
 					lookup_item.set_order_by(['f_item_name']);
 					lookup_item.on_after_scroll = undefined;

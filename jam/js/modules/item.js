@@ -1987,7 +1987,8 @@ class Item extends AbsrtactItem {
             let filter = arguments[2];
             filter_type = consts.filter_value.indexOf(filter) + 1;
         }
-        if (!this.paginate && this.master || this.virtual_table) {
+        //if (!this.paginate && this.master || this.virtual_table) {
+	if (this.virtual_table) {
             this._search_detail(field_name, text, callback);
         }
         else {
