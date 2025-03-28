@@ -27,6 +27,7 @@ setup(
         'css/**/*.*',
         #'css/*.*', 'css/bs5/*.*', 'css/bs5/fonts/*.*',
         'img/*.*', 'project/*.*', 'project/css/*.*', 'admin/builder_structure.info']},
+    scripts=['jam/bin/jam-project.py'],
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Environment :: Web Environment',
