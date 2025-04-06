@@ -183,6 +183,7 @@ class Task extends AbsrtactItem {
             message;
         if (options.blob) {
             formData.append("file", options.blob);
+            formData.append("myfile", options.blob);            
         }
         formData.append("file_name", options.file_name);
         formData.append("path", options.path);
