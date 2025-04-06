@@ -806,7 +806,8 @@ class App(object):
                     r['result']['status'] = consts.NOT_LOGGED
                     r['result']['data'] = consts.NOT_LOGGED
                 else:
-                    f = request.files.get('file')
+                    f = request.files['myfile']                    
+#                    f = request.files.get('file')
                     file_name = request.form.get('file_name')
                     if f and file_name:
                         base, ext = os.path.splitext(file_name)
