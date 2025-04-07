@@ -48,6 +48,7 @@ More demos on PythonAnywhere:
 - [Google Authentication, V7](https://ipam2.pythonanywhere.com)
 - [IP Management V7 (wip)](https://ipmgmt.pythonanywhere.com)
 - [Sistema Integrado de Gestão - IMS for Brazilian Market (Portuguese)](https://imsmax.pythonanywhere.com)
+- [ Bills of Materials, sourced from  https://github.com/mpkasp/django-bom as no-code,  V7 (wip)](https://billsofmaterials.pythonanywhere.com)
 
 
 Jam.py alternative site:
