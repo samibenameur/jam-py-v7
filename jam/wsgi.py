@@ -810,6 +810,7 @@ class App(object):
                         f = request.files.get('myfile')
                     if 'file' in request.files:
                         f = request.files.get('file')
+                    print(f)
                     file_name = request.form.get('file_name')
                     if f and file_name:
                         base, ext = os.path.splitext(file_name)
