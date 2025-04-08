@@ -25,7 +25,8 @@ setup(
     package_data={'jam': ['langs.sqlite', 'html/*.html', 'js/*.js', 'js/bs5/*.*',
         'js/modules/*.js', 'js/ace/*.js', 
         'css/**/*.*',
-        #'css/*.*', 'css/bs5/*.*', 'css/bs5/fonts/*.*',
+        'css/*', 'css/bs5/*.*', 'css/bs5/fonts/*.*',
+        'css/zebra_datepicker/**/*.*',
         'img/*.*', 'project/*.*', 'project/css/*.*', 'admin/builder_structure.info']},
     scripts=['jam/bin/jam-project.py'],
     classifiers=[
