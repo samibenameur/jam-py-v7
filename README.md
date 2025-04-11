@@ -10,7 +10,7 @@ This is forked jam.py to continue the support and development, since Andrew is r
 Jam.py is raising funds to keep the software free for everyone, and we need the support of the entire community to do it. [Donate to Jam.py on Github](https://github.com/sponsors/platipusica) to show your support.
 
 
-This is Jam.py V7 repo. The biggest difference to Jam.py V5 is routing support and Bootstrap 5, enabling modern support for mobile devices. In addition, the complete interface for Desktop or Mobile devices, is driven by no-code approach. Just select what is needed for any device and off you go.
+This is Jam.py V7 repo. The biggest difference to Jam.py V5 is routing support and Bootstrap 5, enabling modern support for mobile devices. In addition, the complete interface for Desktop or Mobile devices is driven by no-code approach. Just select what is needed for any device and off you go.
 
 
 [![alt text](https://github.com/jam-py-v5/jam-py/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)](https://northwind.pythonanywhere.com)
