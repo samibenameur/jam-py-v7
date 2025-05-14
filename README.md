@@ -97,7 +97,10 @@ the client utilizes [JavaScript](https://developer.mozilla.org/en/docs/Web/JavaS
 
 
 All updated documentation for v7 is online at
-https://jampy-docs-v7.readthedocs.io/ 
+https://jampy-docs-v7.readthedocs.io/
+
+Brazilian Portuguese translation started at
+https://jampy-docs-v7-br-pt.readthedocs.io/
 
 Please visit https://jampy-docs-v7.readthedocs.io/en/latest/intro/install.html for Python and
 framework installation or https://jampy-docs-v7.readthedocs.io/en/latest/intro/new_project.html how to create a
