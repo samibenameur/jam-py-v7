@@ -4,8 +4,7 @@
 
 ## Jam.py Application Builder (web framework)
 
-# This is forked jam.py to continue the support and development, since Andrew is retiring from jam.py project. The GH organisation name is jam.py-v5, since we are hoping to release official v7 this year (2025). 
-=======
+## This is forked jam.py to continue the support and development, since Andrew is retiring from jam.py project. The GH organisation name is jam.py-v5, since we are hoping to release official v7 this year (2025). 
 
 
 Jam.py is powerful, customizable Web Builder for managing data effortlessly. Massive difference to any other product
