@@ -4,34 +4,28 @@
 
 ## Jam.py Application Builder (web framework)
 
-This is forked jam.py to continue the support and development, since Andrew is retiring from jam.py project. The GH organisation name is jam.py-v5, since we are hoping to release official v7 this year (2025). 
+# This is forked jam.py to continue the support and development, since Andrew is retiring from jam.py project. The GH organisation name is jam.py-v5, since we are hoping to release official v7 this year (2025). 
 =======
 
-Jam.py is raising funds to keep the software free for everyone, and we need the support of the entire community to do it. [Donate to Jam.py on Github](https://github.com/sponsors/platipusica) to show your support.
 
-
-This is Jam.py V7 repo. The biggest difference to Jam.py V5 is routing support and Bootstrap 5, enabling modern support for mobile devices. In addition, the complete interface for Desktop or Mobile devices is driven by no-code approach. Just select what is needed for any device and off you go.
-
+Jam.py is powerful, customizable Web Builder for managing data effortlessly. Massive difference to any other product
+is a single SQlite3 file which contains the complete application. Another difference is running any Python
+procedure within the Web Builder, including popular Matplotlib, Pandas, NumPy, etc with result displayed in a browser.
 
 [![alt text](https://github.com/jam-py-v5/jam-py/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)](https://northwind.pythonanywhere.com)
 
 
-As a Web development enthusiast, use Jam.py to store, share and analyze data quickly with no code.
-
-Please watch these videos to see how easy it is to create and setup Jam.py
-applications:
+Some short videos about how to setup Jam.py and create applications:
 
 * [Creating CRM web database applications from start to finish in 7 minutes with Jam.py framework](https://youtu.be/vY6FTdpABa4)
 * [Setting up interface of Jam.py application using Forms Dialogs](https://youtu.be/hvNZ0-a_HHw)
 
-As a professional Web developer, use Jam.py to create various tools, dashboards,
-as well as large-scale business applications with complex internal logic.
 
-Please watch the:
-[Jam.py framework applications](https://youtu.be/qkJvGlgoabU)  video
-to see some applications developed in Jam.py.
+Longer
+[Jam.py framework applications](https://youtu.be/qkJvGlgoabU)  video with dashboards,
+as well as large-scale business application with complex internal logic.
 
-More demos on PythonAnywhere:
+Live demos on PythonAnywhere:
 
 - [SAP Theme Demo](https://jampyapp.pythonanywhere.com)
 - [Personal Account Ledger from MS Access template](https://msaccess.pythonanywhere.com)
@@ -110,6 +104,9 @@ new project.
 
 For general discussion, ideas or similar, please visit mailgroup https://groups.google.com/g/jam-py or
 FB page https://www.facebook.com/groups/jam.py/ (paused atm)
+
+
+Jam.py is raising funds to keep the software free for everyone, and we need the support of the entire community to do it. [Donate to Jam.py on Github](https://github.com/sponsors/platipusica) to show your support.
 
 
 ## License
