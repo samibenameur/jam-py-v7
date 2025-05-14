@@ -7,9 +7,11 @@
 ## This is forked jam.py to continue the support and development, since Andrew is retiring from jam.py project. The GH organisation name is jam.py-v5, since we are hoping to release official v7 this year (2025). 
 
 
-Jam.py is powerful, customizable Web Builder for managing data effortlessly. Massive difference to any other product
-is a single SQlite3 file which contains the complete application. Another difference is running any Python
-procedure within the Web Builder, including popular Matplotlib, Pandas, NumPy, etc with result displayed in a browser.
+Jam.py is powerful Web Application Builder for managing data effortlessly. All batteries included.
+
+Massive difference to any other product is a single SQlite3 file which contains the complete application.
+
+Another difference is running any Python procedure within the Application Builder, including popular Matplotlib, Pandas, NumPy, etc. with result displayed in a browser. No longer a console access is needed for reviewing the logs.
 
 [![alt text](https://github.com/jam-py-v5/jam-py/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)](https://northwind.pythonanywhere.com)
 
