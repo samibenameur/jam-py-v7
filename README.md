@@ -11,7 +11,7 @@ Jam.py is powerful Web Application Builder for managing data effortlessly. All b
 
 A major difference from other products is that the entire application is contained within a **single SQLite3 file**. And it can be **encrypted**! 
 
-Another key distinction is the ability to run **any Python procedure directly within the Application Builder** - including popular libraries like Matplotlib, Pandas, and NumPy - with the results displayed in the browser. There's no need to access the console to review logs anymore. Python can run **synchronously** or **asynchronously**.
+Another key distinction is the ability to run **any Python procedure directly within the Application Builder** - including popular libraries like Matplotlib, Pandas, and NumPy - with the results displayed in the browser. There's no need to access the console to review logs anymore. Python procedure can run **synchronously** or **asynchronously** on the server.
 
 More over, using **Import tables** feature from any supported database is providig instant data access! There's no need to code anything and **authentication is one click away**!
 
