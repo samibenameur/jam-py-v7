@@ -13,7 +13,9 @@ A major difference from other products is that the entire application is contain
 
 Another key distinction is the ability to run **any Python procedure directly within the Application Builder** - including popular libraries like Matplotlib, Pandas, and NumPy - with the results displayed in the browser. Python procedure can run **synchronously** or **asynchronously** on the server. There's no need to access the console to review logs anymore, the **server sends results** to the browser!
 
-More over, using **Import tables** feature from any supported database is providig instant data access! There's no need to code anything and **authentication is one click away**!
+More over, using **Import tables** feature from any supported database is providig instant data access! There's no need to code anything and **authentication is one click away**! 
+
+Hope this sparked some interest! Thank you.
 
 [![alt text](https://github.com/jam-py-v5/jam-py/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)](https://northwind.pythonanywhere.com)
 
