@@ -108,6 +108,7 @@ new project.
 For general discussion, ideas or similar, please visit mailgroup https://groups.google.com/g/jam-py or
 FB page https://www.facebook.com/groups/jam.py/ (paused atm)
 
+## Sponsor
 
 Jam.py is raising funds to keep the software free for everyone, and we need the support of the entire community to do it. [Donate to Jam.py on Github](https://github.com/sponsors/platipusica) to show your support.
 
