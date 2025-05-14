@@ -23,8 +23,7 @@ Some short videos about how to setup Jam.py and create applications:
 
 
 Longer
-[Jam.py framework applications](https://youtu.be/qkJvGlgoabU)  video with dashboards,
-as well as large-scale business application with complex internal logic.
+[video](https://youtu.be/qkJvGlgoabU)  with dashboards and complex internal logic.
 
 Live demos on PythonAnywhere:
 
