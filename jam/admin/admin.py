@@ -73,7 +73,7 @@ def connect_task_db(task):
     return task.task_db_module.connect(task.task_db_info)
 
 def valid_delta_type(delta):
-    return not delta.f_virtual_table.value and not delta.f_copy_of.value and \
+    return not delta.f_virtual_table.value and \
         delta.type_id.value in (consts.ITEM_TYPE, consts.TABLE_TYPE)
 
 def get_item_fields(item, fields, delta_fields=None):
