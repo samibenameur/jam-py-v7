@@ -73,7 +73,7 @@ def connect_task_db(task):
     return task.task_db_module.connect(task.task_db_info)
 
 def valid_delta_type(delta):
-    return not delta.f_virtual_table.value and \
+    return not delta.f_virtual_table.value and not delta.f_copy_of.value and \
         delta.type_id.value in (consts.ITEM_TYPE, consts.TABLE_TYPE)
 
 def get_item_fields(item, fields, delta_fields=None):
@@ -300,7 +300,7 @@ def valid_indices_record(delta):
     items.set_where(id=delta.owner_rec_id.value)
     items.open()
     if items.rec_count:
-        return not items.f_virtual_table.value
+        return not items.f_virtual_table.value and not items.f_copy_of.value
     else:
         return True
 
