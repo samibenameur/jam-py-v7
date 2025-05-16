@@ -114,6 +114,8 @@ Please visit https://jampy-docs-v7.readthedocs.io/en/latest/intro/install.html f
 framework installation or https://jampy-docs-v7.readthedocs.io/en/latest/intro/new_project.html how to create a
 new project.
 
+Jam.py application design tips are at https://jampy-application-design-tips.readthedocs.io/
+
 For general discussion, ideas or similar, please visit mailgroup https://groups.google.com/g/jam-py or
 FB page https://www.facebook.com/groups/jam.py/ (paused atm)
 
