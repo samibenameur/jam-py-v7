@@ -38,8 +38,8 @@ Live demos on PythonAnywhere:
 
   Below two apps demonstrate Matplotlib, Pandas, NumPy and RFM analysis, which stands for R ecency, F requency, and M onetary value, directly migrated from MS Access template:
   
-- [NorthWind Traders from MS Access template V7 (wip)](https://northwind2.pythonanywhere.com)
-- [NorthWind Traders from MS Access template V5 (wip)](https://northwind.pythonanywhere.com)
+- [NorthWind Traders from MS Access template V7 DEV (wip)](https://northwind2.pythonanywhere.com)
+- [NorthWind Traders from MS Access template V7 (wip)](https://northwind.pythonanywhere.com)
 
   
 - [The ERP POC Demo with Italian and English translations](https://sem.pythonanywhere.com)
