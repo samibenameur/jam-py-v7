@@ -170,7 +170,7 @@ class Report(object):
                 else:
                     s_office = "soffice"
                 convertion = Popen([s_office, '--headless', '--convert-to', self.ext.strip('.'),
-                    self.report_filename, '--outdir', self.dest_folder],env={"HOME": '/tmp'},
+                    self.report_filename, '--outdir', self.dest_folder],
                     stderr=STDOUT,stdout=PIPE)
                 out, err = convertion.communicate()
             except Exception as e:
