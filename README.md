@@ -9,13 +9,13 @@
 
 Jam.py is powerful Web Application Builder for managing data effortlessly. All batteries included. Plus, it is event driven! What is EDA:
 
-"An event-driven framework, also known as event-driven architecture (EDA), is a design pattern where software components communicate and react to changes in state or events." Everyhing in Jam.py can be an event. Like a mouse click, or pressing CRTL+Ins, CTRL+Del or whatever is defined by you.
+"An event-driven framework, also known as event-driven architecture (EDA), is a design pattern where software components communicate and react to changes in state or events." Everything in Jam.py can be an event. Like a mouse click, or pressing CRTL+Ins, CTRL+Del or whatever is defined by you.
 
-Another major difference from other products is that the entire application is contained within a **single SQLite3 file**. And it can be **encrypted**! 
+Major difference from other products is that the entire application is contained within a **single SQLite3 file**. And it can be **encrypted**! 
 
 Another key distinction is the ability to run **any Python procedure directly within the Application Builder** - including popular libraries like Matplotlib, Pandas, and NumPy - with the results displayed in the browser. Python procedure can run **synchronously** or **asynchronously** on the server. There's no need to access the console to review logs anymore, the **server sends results** to the browser!
 
-More over, using **Import tables** feature from any supported database is providig instant data access! There's no need to code anything and **authentication is one click away**! 
+More over, using **Import tables** feature from any supported database is providing instant data access! There's no need to code anything and **authentication is one click away**! 
 
 Hope this sparked some interest! Thank you.
 
