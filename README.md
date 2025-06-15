@@ -6,6 +6,8 @@
 
 ## This is forked jam.py to continue the support and development, since Andrew is retiring from jam.py project. The GH organisation name is jam.py-v5, since we are hoping to release official v7 this year (2025). 
 
+## The LLMS-full.txt is released: https://jampy-docs-v7.readthedocs.io/en/latest/llms-full.txt and https://jampy-docs-v7.readthedocs.io/en/latest/llms.txt
+
 
 Jam.py is powerful Web Application Builder for managing data effortlessly. All batteries included. Plus, it is event driven! What is EDA:
 
