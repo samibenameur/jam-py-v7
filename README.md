@@ -2,7 +2,7 @@
 [![Package on PyPI](https://img.shields.io/pypi/v/jam.py-v7.svg)](https://pypi.org/project/jam.py-v7) ![Supported Python versions](https://img.shields.io/pypi/pyversions/python3-saml.svg) [![Documentation Status](https://readthedocs.org/projects/jampy-docs-v7/badge/)](https://jampy-docs-v7.readthedocs.io) [![Downloads](https://static.pepy.tech/badge/jam.py-v7)](http://pepy.tech/project/jam.py-v7)
 
 
-## Jam.py Application Builder (web framework)
+## Jam.py is a web front-end generator that works with both existing databases and newly created ones.
 
 ## This is forked jam.py to continue the support and development, since Andrew is retiring from jam.py project. The GH organisation name is jam.py-v5, since we are hoping to release official v7 this year (2025). 
 
