@@ -17,7 +17,7 @@ All batteries included and event driven! What is EDA:
 
 Major difference from other products is that the entire application is contained within a **single SQLite3 file**. And it can be **encrypted**! 
 
-Another key distinction is the ability to run **any Python procedure directly within the Application Builder as a back-end** - including popular libraries like Matplotlib, Pandas, and NumPy - with the results displayed in the browser. Python procedure can run **synchronously** or **asynchronously** on the server. There's no need to access the console to review logs, the **server can send results** to the browser!
+Another key distinction is the ability to run **any Python procedure directly within the Application Builder as a back-end** - including popular libraries like Matplotlib, Pandas, and NumPy - with the results displayed in the browser. Python procedure can run **synchronously** or **asynchronously** on the server. 
 
 More over, using **Import tables** feature from any supported database is providing **instant web front-end**. There's no need to code anything and **authentication is one click away**! 
 
