@@ -9,6 +9,7 @@ from types import MethodType
 import mimetypes
 import logging
 import jam
+import html
 
 from werkzeug.wrappers import Request, Response
 from werkzeug.routing import Map, Rule
@@ -320,8 +321,8 @@ class App(object):
                 else:
                     form = request.form.to_dict()
                     login_params['error'] = 'error-modal-border'
-                    login_params['login'] = form['login']
-                    login_params['password'] = form['password']
+                    login_params['login'] = html.escape(form['login'])
+                    login_params['password'] = html.escape(form['password'])
                     return self.serve_page(login_path, login_params)
             else:
                 return self.serve_page(login_path, login_params)
@@ -363,8 +364,8 @@ class App(object):
                 else:
                     form = request.form.to_dict()
                     login_params['error'] = 'error-modal-border'
-                    login_params['login'] = form['login']
-                    login_params['password'] = form['password']
+                    login_params['login'] = html.escape(form['login'])
+                    login_params['password'] = html.escape(form['password'])
                     return self.serve_page(login_path, login_params)
             else:
                 return self.serve_page(login_path, login_params)
