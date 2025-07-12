@@ -25,11 +25,13 @@ TYPE_ID = 10
 VISIBLE = 1
 DELETED = 0
 TABLE_ID = 0
+F_VIRTUAL_TABLE = 0
+F_SOFT_DELETE = 0
 
 # SYS_FIELDS config
-FIELD_START_ID = 15
+FIELD_START_ID = 12
 OWNER_ID = 3
-F_ALIGNMENT = 1
+#F_ALIGNMENT = 1
 F_TEXTAREA = 0
 F_DO_NOT_SANITIZE = 0
 F_CALC_LOOKUP_FIELD = 0
@@ -189,6 +191,38 @@ def get_f_data_type(sql_type, col_name):
         return 4
     return 1
 
+def get_f_size(sql_type, col_name):
+    if 'DATE' in col_name.upper():
+        return 5
+    sql_type = sql_type.upper()
+    if sql_type == 'TEXT':
+        return 100
+    elif sql_type == 'INTEGER':
+        return 0
+    elif sql_type == 'BIGINT':
+        return 0
+    elif sql_type == 'FLAT':
+        return 0
+    elif sql_type == 'REAL':
+        return 0
+    return 100
+
+def get_f_alignment(sql_type, col_name):
+    if 'DATE' in col_name.upper():
+        return 5
+    sql_type = sql_type.upper()
+    if sql_type == 'TEXT':
+        return 1
+    elif sql_type == 'INTEGER':
+        return 3
+    elif sql_type == 'BIGINT':
+        return 3
+    elif sql_type == 'FLAT':
+        return 3
+    elif sql_type == 'REAL':
+        return 3
+    return 1
+
 
 def matches(conn):
     matches = get_table_names(conn)
@@ -216,6 +250,7 @@ def connect_to_database(db_path):
 def my_database_procedure(db_info):
     db_file = db_info['db']
     require_pk = db_info['pk']  # 1 or 0
+    group_on = db_info['group']  # 1 or 0
 
     # === CONNECT TO DB ===
     conn = sqlite3.connect(ADMIN_FILE)
@@ -223,7 +258,9 @@ def my_database_procedure(db_info):
 
     cursor.execute("UPDATE SYS_PARAMS SET F_LANGUAGE=1")
     cursor.execute("UPDATE SYS_TASKS SET F_DB_TYPE=1, F_ALIAS=?, F_NAME='demo', F_ITEM_NAME='demo'", (db_file,))
-    cursor.execute("UPDATE SYS_ITEMS SET F_NAME =?, F_ITEM_NAME=? WHERE ID=1", ('demo', 'demo',))
+    cursor.execute("UPDATE SYS_ITEMS SET F_NAME =?, F_ITEM_NAME=?, F_JS_FILENAME=? WHERE ID=1", ('demo', 'demo', 'demo.js'))
+
+
 
     item_id = ITEM_START_ID
     field_id = FIELD_START_ID
@@ -257,6 +294,7 @@ def my_database_procedure(db_info):
 
     # === STEP 2: Group valid tables and create reverse mapping ===
     grouped = group_by_suffix(valid_tables)
+
     table_to_group_name = {table: group for group, tables in grouped.items() for table in tables}
 
     # === STEP 3: Insert group folders ===
@@ -279,6 +317,7 @@ def my_database_procedure(db_info):
         ))
         print(f"[FOLDER] Inserted Group '{group_name}' with id={group_folder_id}")
         item_id += 1
+            
 
     # === STEP 4: Insert tables and fields ===
     for table_name in valid_tables:
@@ -286,6 +325,13 @@ def my_database_procedure(db_info):
         group_name = table_to_group_name.get(table_name)
         parent_id = group_to_folder_id.get(group_name)
 
+#        print(args.group)
+#        if args.group == 1:
+#            parent_id = group_to_folder_id.get(group_name)
+#        else:
+#            parent_id = PARENT_ID
+#            group_name = 'Catalogs'
+#
         f_table_name = table_name
         f_item_name = table_name.lower()
         f_name = "_".join(part.capitalize() for part in table_name.replace("DEMO_", "").split("_"))
@@ -295,12 +341,12 @@ def my_database_procedure(db_info):
             INSERT INTO SYS_ITEMS (
                 id, deleted, task_id, type_id, parent, table_id,
                 f_name, f_item_name, f_table_name,
-                f_visible, f_soft_delete, f_deleted_flag
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                f_visible, f_soft_delete, f_deleted_flag, f_virtual_table, f_soft_delete
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """, (
             table_item_id, DELETED, TASK_ID, TYPE_ID, parent_id, TABLE_ID,
             f_name, f_item_name, f_table_name,
-            VISIBLE, None, None
+            VISIBLE, None, None, F_VIRTUAL_TABLE, F_SOFT_DELETE
         ))
 
         print(f"[SYS_ITEMS] Inserted table '{table_name}' under group '{group_name}' with id={table_item_id}")
@@ -320,17 +366,19 @@ def my_database_procedure(db_info):
             f_field_name = sanitize_field_name(to_camel_case(col_name))
             f_name = to_caption(col_name)
             f_data_type = get_f_data_type(col_type, col_name)
+            f_size = get_f_size(col_type, col_name)
+            f_alignment = get_f_alignment(col_type, col_name)
 
             cursor.execute("""
                 INSERT INTO SYS_FIELDS (
                     id, owner_id, task_id, owner_rec_id, deleted,
-                    f_field_name, f_db_field_name, f_name, f_data_type, f_required,
+                    f_field_name, f_db_field_name, f_name, f_data_type, f_size, f_required,
                     f_alignment, f_textarea, f_do_not_sanitize, f_calc_lookup_field
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """, (
                 field_id, OWNER_ID, TASK_ID, table_item_id, DELETED,
-                f_field_name, col_name, f_name, f_data_type, F_REQUIRED,
-                F_ALIGNMENT, F_TEXTAREA, F_DO_NOT_SANITIZE, F_CALC_LOOKUP_FIELD
+                f_field_name, col_name, f_name, f_data_type, f_size, F_REQUIRED,
+                f_alignment, F_TEXTAREA, F_DO_NOT_SANITIZE, F_CALC_LOOKUP_FIELD
             ))
 
             if pk and not pk_detected:
@@ -383,6 +431,7 @@ def main():
     parser.add_argument('--db', required=True, help='Database name')
     parser.add_argument('--prefix', default='',  help='Tables name prefix to remove for Captions')
     parser.add_argument('--pk', default=1,  help='Require primary key: 1=yes (default), 0=allow tables without PK')
+    parser.add_argument('--group', default=1,  help='Tables grouping: 1=yes (default), 0=tables into Catalogs')
 
     args = parser.parse_args()
 
