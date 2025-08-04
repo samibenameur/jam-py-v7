@@ -384,12 +384,69 @@ function Events15() { // demo.catalogs.tracks
 
 	function on_view_form_created(item) {
 		if (!item.lookup_field) {
+			item.table_options.height -= 200;
+			item.invoice_table = task.invoice_table.copy();
+			item.invoice_table.paginate = false;
+			item.invoice_table.create_table(item.view_form.find('.view-detail'), {
+				height: 200,
+				summary_fields: ['date', 'total'],
+				on_dblclick: function() {
+					show_invoice(item.invoice_table);
+				}
+			});
+			item.alert('Double-click the record in the bottom table to see the invoice in which the track was sold.');
+			
+	
 			item.table_options.multiselect = true;
 			item.add_view_button('Set media type').click(function() {
 				set_media_type(item);
 			});   
 		}
+		// item.milliseconds.read_only = !item.unitprice.value;	
+		// item.table_options.on_click = function() {
+	// 			if (item.locked.value === True) {
+					// item.table_options.editable_fields = ['milliseconds','unit_price'];		
+	// 			}
+	// 			else {
+	// 				// item.table_options.editable_fields = [];
+	// 			}
+		// }
 	}
+	
+	var scroll_timeout;
+	
+	function on_after_scroll(item) {
+		if (!item.lookup_field && item.view_form.length) {
+			clearTimeout(scroll_timeout);
+			scroll_timeout = setTimeout(
+				function() {
+					if (item.rec_count) {
+						item.invoice_table.set_where({track: item.id.value});
+						item.invoice_table.set_order_by(['-invoice_date']);
+						item.invoice_table.open(true);
+					}
+					else {
+						item.invoice_table.close();
+					}
+				},
+				100
+			);
+		}
+	}
+	
+	function show_invoice(invoice_table) {
+		var invoices = task.invoices.copy();
+		invoices.set_where({id: invoice_table.invoice.value});
+		invoices.open(function(i) {
+			i.edit_options.modeless = false;
+			i.can_modify = false;
+			i.invoice_table.on_after_open = function(t) {
+				t.locate('id', invoice_table.invoice.value);
+			};
+			i.edit_record();
+		});
+	}
+	
 	
 	function set_media_type(item) {
 		var copy = item.copy({handlers: false}),
@@ -434,6 +491,8 @@ function Events15() { // demo.catalogs.tracks
 		}
 	}
 	this.on_view_form_created = on_view_form_created;
+	this.on_after_scroll = on_after_scroll;
+	this.show_invoice = show_invoice;
 	this.set_media_type = set_media_type;
 }
 

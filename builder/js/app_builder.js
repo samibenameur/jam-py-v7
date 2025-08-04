@@ -122,6 +122,7 @@ function Events1() { // app_builder
 				db:			 {handler: edit_database, short_cut: 'F4', key_code: 115, icon: 'bi bi-database-gear', editor: true},
 				'export':	   {handler: export_task, short_cut: 'Ctrl-E', key_code: 69, key_ctrl: true, icon: 'bi bi-file-earmark-zip'},
 				'import':	   {handler: import_task, short_cut: 'Ctrl-I', key_code: 73, key_ctrl: true, icon: 'bi bi-upload'},
+				ace:			{handler: ace_shortcuts, short_cut: 'Alt-U', key_code: 85, key_alt: true},
 				find:		   {handler: find_in_task, short_cut: 'Alt-F', key_code: 70, key_alt: true, icon: 'bi bi-search'},
 				print:		  {handler: print_code, icon: 'bi bi-printer'},
 				client_module:  {handler: task.sys_items.edit_client, item: task.sys_items, short_cut: 'F7', key_code: 118, icon: 'bi bi-filetype-js', editor: true},
@@ -646,6 +647,10 @@ function Events1() { // app_builder
 		task.sys_search.find_in_task(task);
 	}
 	
+	
+	function ace_shortcuts(task) {
+	}
+	
 	function print_section(list, html) {
 		var i,
 			j,
@@ -831,6 +836,7 @@ function Events1() { // app_builder
 	this.edit_database = edit_database;
 	this.show_lookup_lists = show_lookup_lists;
 	this.find_in_task = find_in_task;
+	this.ace_shortcuts = ace_shortcuts;
 	this.print_section = print_section;
 	this.print_code = print_code;
 	this.do_import = do_import;
@@ -3749,7 +3755,12 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 				task.sys_search.find_in_task(task);
 			}
 		);
-	
+		task.code_editor.find('#ace-btn')
+			.text(task.code_editor.find('#ace-btn').text().replace('ace_shortcuts', task.language.ace_shortcuts))
+			.click(function() {
+				ace_shortcuts(task);
+			}
+		);
 		task.code_editor.on('click', '#editor-tabs > .nav > li button', function() {
 			info_tab_clicked(task, $(this));
 		});
@@ -3972,6 +3983,7 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 		tree_div.hide();
 		tree_item.open({open_empty: true});
 		build_tree(tree_item, tree_info, 0);
+		setTimeout(decorate_tree_with_icons(task, $('ul#task-tabs li button.active').attr('id')), 100);
 		tree_item.disable_controls();
 		try {
 			tree_item.create_tree(tree_div,
@@ -4012,6 +4024,45 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 		return cur_id;
 	}
 	
+	function decorate_tree_with_icons(task, tag) {
+		var info = task.tabs[tag];
+		var ext = info && info.ext;
+		console.log(ext);
+	
+		$('.info-tree .tree-text').each(function () {
+			var $span = $(this);
+			var name = $span.text().trim();
+	
+			var tab = $span.closest('.info-tree').attr('id');
+	
+			if (tab !== 'module' && tab !== 'events') {
+				return; // Only decorate for module/events
+			}
+	
+			if ($span.find('.icon').length === 0) {
+				$span.attr('data-name', name);
+	
+				// Choose URL
+				let base_url;
+				if (ext === 'py' || ext === 'js') {
+					const section = ext === 'py' ? 'server' : 'client';
+					base_url = `https://jampy-docs-v7.readthedocs.io/en/latest/refs/${section}/item/`;
+				}
+	
+	
+				var url = base_url + encodeURIComponent(name) + '.html';
+	
+				var icon_link = `
+					<a href="${url}" target="_blank" title="Open ${name}" class="icon-link" style="text-decoration: none;">
+						<span class="icon" style="margin-left:5px;color:#888;">🔍</span>
+					</a>
+				`;
+	
+				$span.append(icon_link);
+			}
+		});
+	}
+	
 	function info_tab_clicked(task, $btn) {
 		task.code_editor.find('#editor-tabs li button').removeClass('active');
 		$btn.addClass('active');
@@ -4021,7 +4072,7 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 	function tree_node_clicked(task, tag, $li) {
 		var info = task.tabs[tag],
 			tab = $li.closest('.info-tree').attr('id'),
-			node_text = $li.find('span.tree-text:first').text(),
+			node_text = $li.find('span.tree-text:first').data('name'),
 			text,
 			result,
 			params;
@@ -4133,6 +4184,36 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 			}
 		}
 	}
+	
+	function ace_shortcuts(task) {
+		// task.sys_code_editor.ace_shortcuts(task);
+		var url = "https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts" ;
+		window.open(encodeURI(url));
+	
+		// var result,
+		//	 i,
+		//	 $p,
+		//	 lines,
+		//	 width = $(window).width() - 50,
+		//	 height = $(window).height() - 200,
+		//	 html = $('<div>');
+		//	 result = task.language.ace_shortcuts_value;
+		//	 console.log(result);
+		//	 if (result) {
+		//		 html.append($('<h4>Ace shortcuts</h4>'));
+		//		 lines = result.split('\n');
+		//		 for (i = 0; i < lines.length; i++) {
+		//			 $p = $('<p style="margin: 0px;">').text(lines[i]);
+		//			 $p.css("font-family", "'Courier New', Courier, monospace");
+		//			 html.append($p);
+		//		 }
+		//		 task.message(html,
+		//			 {title: 'ace_shortcuts', margin: 10, width: width, height: height,
+		//				 text_center: false, buttons: {"Close": undefined}, center_buttons: false, print: true}
+		//		 );
+		//	 }
+	   
+	}
 	this.init_tabs = init_tabs;
 	this.show_tab = show_tab;
 	this.show_editor = show_editor;
@@ -4151,12 +4232,14 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 	this.create_info_tabs = create_info_tabs;
 	this.add_tree = add_tree;
 	this.build_tree = build_tree;
+	this.decorate_tree_with_icons = decorate_tree_with_icons;
 	this.info_tab_clicked = info_tab_clicked;
 	this.tree_node_clicked = tree_node_clicked;
 	this.set_info_grids_height = set_info_grids_height;
 	this.update_tab_height = update_tab_height;
 	this.find_text = find_text;
 	this.resize = resize;
+	this.ace_shortcuts = ace_shortcuts;
 }
 
 task.events.events14 = new Events14();
