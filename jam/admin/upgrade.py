@@ -179,28 +179,32 @@ def version7_upgrade(task):
     if item_field_dict:
         for field in sys_fields:
             if field.f_object.value:
-                field.edit()
-                value = field.f_object_field.value
-                field_pk_dict = item_field_dict[field.f_object.value]
-                replace_in_field(field.f_object_field, field_pk_dict)
-                replace_in_field(field.f_master_field, field_pk_dict)
-                value1 = field.f_object_field1.value
-                if value1:
-                    rec_no = sys_fields.rec_no
-                    sys_fields.rec_no = field_dict[value]
-                    object1 = sys_fields.f_object.value
-                    sys_fields.rec_no = rec_no
-                    field_pk_dict = item_field_dict[object1]
-                    replace_in_field(field.f_object_field1, field_pk_dict)
-                    value2 = field.f_object_field2.value
-                    if value2:
+                try:
+                    field.edit()
+                    value = field.f_object_field.value
+                    field_pk_dict = item_field_dict[field.f_object.value]
+                    replace_in_field(field.f_object_field, field_pk_dict)
+                    replace_in_field(field.f_master_field, field_pk_dict)
+                    value1 = field.f_object_field1.value
+                    if value1:
                         rec_no = sys_fields.rec_no
-                        sys_fields.rec_no = field_dict[value1]
-                        object2 = sys_fields.f_object.value
+                        sys_fields.rec_no = field_dict[value]
+                        object1 = sys_fields.f_object.value
                         sys_fields.rec_no = rec_no
-                        field_pk_dict = item_field_dict[object2]
-                        replace_in_field(field.f_object_field2, field_pk_dict)
-                field.post()
+                        field_pk_dict = item_field_dict[object1]
+                        replace_in_field(field.f_object_field1, field_pk_dict)
+                        value2 = field.f_object_field2.value
+                        if value2:
+                            rec_no = sys_fields.rec_no
+                            sys_fields.rec_no = field_dict[value1]
+                            object2 = sys_fields.f_object.value
+                            sys_fields.rec_no = rec_no
+                            field_pk_dict = item_field_dict[object2]
+                            replace_in_field(field.f_object_field2, field_pk_dict)
+                    field.post()
+                except Exception as e:
+                    print("Skipping sys_fields.id =", field.id.value, ":", e)
+
         report_params = task.sys_report_params.copy(handlers=False)
         report_params.open()
         for param in report_params:
