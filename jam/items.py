@@ -5,6 +5,8 @@ import inspect
 import pickle
 import json
 import types
+import logging
+import sqlparse
 
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import redirect
@@ -19,6 +21,29 @@ from .tree import AbstrTask, AbstrGroup, AbstrItem, AbstrDetail, AbstrReport
 from .dataset import Dataset, DBField, DBFilter, ParamReport, Param, DatasetException
 from .admin.copy_db import copy_database
 from .report import Report
+
+class SQLFormatter(logging.Formatter):
+    def format(self, record):
+        # Check if the log message contains a SQL query (e.g., by looking for "SELECT", "INSERT", etc.)
+        if isinstance(record.msg, str) and any(kw in record.msg.upper() for kw in ["SELECT", "INSERT", "UPDATE", "DELETE", "CREATE", "ALTER", "DROP"]):
+            try:
+                # Format the SQL query using sqlparse
+                formatted_sql = sqlparse.format(record.msg, reindent=True, keyword_case='upper')
+                record.msg = f"\n--- SQL Query Start ---\n{formatted_sql}\n--- SQL Query End ---"
+            except Exception as e:
+                # If sqlparse fails, log the original message and the error
+                record.msg = f"Error formatting SQL: {e}\nOriginal message: {record.msg}"
+        return super().format(record)
+# Example Usage:
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.DEBUG)
+
+# Create a console handler and set the custom formatter
+ch = logging.StreamHandler()
+formatter = SQLFormatter('%(asctime)s - %(levelname)s - %(message)s')
+ch.setFormatter(formatter)
+logger.addHandler(ch)
+
 
 class ServerDataset(Dataset):
     def __init__(self):
@@ -135,6 +160,9 @@ class ServerDataset(Dataset):
         return self.__execute_select(cursor, sql, params, db)
 
     def __execute_select(self, cursor, sql, params, db):
+        if consts.SHOW_SELECT_SQL: 
+            print('')
+            logger.info(sql)
         try:
             if params:
                 params = db.process_query_params(params, cursor)

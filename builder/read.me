@@ -3,7 +3,11 @@ create the Jam.py Application Builder.
 
 After making and testing changes, click the "Prepare files" button. The
 application will create a “jam_files” folder, if it does not exist, with
-files that should be copied to the jam folder of the Jam.py package.
+files that should be copied to the jam folder of the Jam.py package with:
+cp -fr jam_files/* ../jam/.
+
+After copying, increase jam/__init__.py with th version number and test with:
+pip install .
 
 The development process is similar to the development of a regular
 Jam.py application, except that all server code must be located in the

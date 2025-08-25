@@ -2983,6 +2983,7 @@ function Events8() { // app_builder.catalogs.sys_params
 		else {
 			item._safe_mode = item.f_safe_mode.value;
 			item._language = item.f_language.value;
+			item._show_select_sql = item.f_show_select_sql.value;
 			item._theme = item.f_theme.value;
 			item._production = item.f_production.value;
 	
@@ -2993,7 +2994,7 @@ function Events8() { // app_builder.catalogs.sys_params
 			intface = task.add_tab(edit_body, task.language.interface);
 	
 			item.create_inputs(general, {
-				fields: ['f_production', 'f_safe_mode', 'f_debugging', 'f_language', 'f_persist_con',
+				fields: ['f_production', 'f_safe_mode', 'f_debugging', 'f_show_select_sql', 'f_language', 'f_persist_con',
 				'f_con_pool_size', 'f_compressed_js',
 				// 'f_single_file_js', 'f_dynamic_js', 'f_history_item', 'f_lock_item', 'f_timeout',
 				'f_single_file_js', 'f_dynamic_js', 'f_history_item', 'f_timeout',
@@ -3029,6 +3030,7 @@ function Events8() { // app_builder.catalogs.sys_params
 			 if (field.value) {
 				//  item.f_safe_mode.value = true;
 				 item.f_debugging.value = false;
+				 item.f_show_select_sql.value = false;
 				 item.f_import_delay.value = 180;
 			 }
 		}

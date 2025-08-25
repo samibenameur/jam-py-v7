@@ -17,7 +17,9 @@ setup(
         "sqlalchemy",
         "esprima",
         "pyjsparser",
-        "jsmin"
+        "jsmin",
+        "sqlparse",
+        "standard-imghdr",
     ],
     packages=[
         'jam', 'jam.db', 'jam.admin', 'jam.secure_cookie'

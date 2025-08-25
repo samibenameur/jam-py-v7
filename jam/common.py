@@ -55,6 +55,7 @@ class Consts(object):
         'SERVER_MODIFIED': False,
         'BUILD_VERSION': 0,
         'PARAMS_VERSION': 0,
+        'SHOW_SELECT_SQL': False,
     }
     DEFAULT_LOCALE = {
         'DECIMAL_POINT': '.',
