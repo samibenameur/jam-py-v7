@@ -171,8 +171,8 @@ def server_set_production(task):
     task.execute("UPDATE SYS_PARAMS SET F_PRODUCTION=0")
     with open(os.path.join(task.work_dir, 'builder.html'), 'wb') as f:
         text = 'Application Builder production mode'
-        f.write(text)
-
+        f.write(text.encode('utf-8'))
+            
 def server_set_project_langage(task, lang):
     consts.LANGUAGE = lang
     consts.read_language()
