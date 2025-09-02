@@ -426,7 +426,11 @@ def my_database_procedure(db_info):
 def main():
     global args  # Declare it global so it modifies the outer 'args'
     parser = argparse.ArgumentParser(
-        description="Connect to a SQLite database, list its tables and scaffold Jam.py V7 front-end."
+        description="""Install jam.py-v7 and create a new project with jam-project.py!
+
+        Then run this script to connect to a SQLite database, list its tables, 
+        and scaffold Jam.py V7 front-end.""",
+        formatter_class=argparse.RawTextHelpFormatter
     )
     parser.add_argument('--db', required=True, help='Database name')
     parser.add_argument('--prefix', default='',  help='Tables name prefix to remove for Captions')

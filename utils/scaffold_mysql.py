@@ -4,7 +4,7 @@ import json
 import sqlparse
 import os
 import argparse
-import mysql.connector
+#import mysql.connector
 
 # === CONFIGURATION ===
 ADMIN_FILE = 'admin.sqlite'
@@ -159,6 +159,7 @@ def connect_to_database(db_path):
         print(f"\n❌ Error connecting to database: {e}")
         return None
 def connect_to_database(db_info):
+    import mysql.connector
     try:
         args = {
             'db': db_info['database'],
@@ -299,7 +300,13 @@ def my_database_procedure(connection, db_info):
     print(f"\n✅ Inserted {item_id - ITEM_START_ID} items and {field_id - FIELD_START_ID} fields.")
 
 def main():
-    parser = argparse.ArgumentParser(description='Connect to MySQL database.')
+    parser = argparse.ArgumentParser(
+        description="""Install jam.py-v7 and create a new project with jam-project.py!
+
+        Then run this script to connect to a MySQL database, list its tables, 
+        and scaffold Jam.py V7 front-end.""",
+        formatter_class=argparse.RawTextHelpFormatter
+    )
     parser.add_argument('--database', required=True, help='Database name')
     parser.add_argument('--user', required=True, help='Username')
     parser.add_argument('--password', required=True, help='Password')
