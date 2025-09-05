@@ -1956,7 +1956,7 @@ calc_summary = function(callback) {
         params.__summary = true;
         if (self.item._open_params.__filters) {
             copy._where_list = self.item._open_params.__filters;
-        }
+        }1
         if (this.item.master) {
             copy.ID = this.item.ID;
             params.__master_id = this.item.master.ID;
@@ -1966,9 +1966,9 @@ calc_summary = function(callback) {
         this.item._fields_summary_info = {};
         copy.open({fields: sum_fields, funcs: funcs, params: params}, function() {
 
-            copy.each_field(function(f, i) {
-                console.log(i, f.field_name, f.data_type, f.value, f.display_text);
-            });
+//            copy.each_field(function(f, i) {
+//                console.log(i, f.field_name, f.data_type, f.value, f.display_text);
+//            });
 
             var counts = {};
 
