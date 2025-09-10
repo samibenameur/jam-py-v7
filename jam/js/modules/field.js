@@ -971,15 +971,24 @@ class Field {
         return def;
     }
 
+//    numeric_field() {
+//        if (!this.lookup_item && (
+//            this.data_type === consts.INTEGER ||
+//            this.data_type === consts.FLOAT ||
+//            this.data_type === consts.CURRENCY)) {
+//            return true;
+//        }
+//    }
     numeric_field() {
-        if (!this.lookup_item && (
+        if (!this.lookup_item &&
+            this.data_type !== consts.BOOLEAN && (
             this.data_type === consts.INTEGER ||
             this.data_type === consts.FLOAT ||
             this.data_type === consts.CURRENCY)) {
             return true;
         }
+        return false;
     }
-
     system_field() {
         if (this.field_name === this.owner._primary_key ||
             this.field_name === this.owner._deleted_flag ||
