@@ -122,7 +122,7 @@ function Events1() { // app_builder
 				db:			 {handler: edit_database, short_cut: 'F4', key_code: 115, icon: 'bi bi-database-gear', editor: true},
 				'export':	   {handler: export_task, short_cut: 'Ctrl-E', key_code: 69, key_ctrl: true, icon: 'bi bi-file-earmark-zip'},
 				'import':	   {handler: import_task, short_cut: 'Ctrl-I', key_code: 73, key_ctrl: true, icon: 'bi bi-upload'},
-				ace:			{handler: ace_shortcuts, short_cut: 'Alt-U', key_code: 85, key_alt: true},
+				ace:			{handler: monaco_shortcuts, short_cut: 'Alt-U', key_code: 85, key_alt: true},
 				find:		   {handler: find_in_task, short_cut: 'Alt-F', key_code: 70, key_alt: true, icon: 'bi bi-search'},
 				print:		  {handler: print_code, icon: 'bi bi-printer'},
 				client_module:  {handler: task.sys_items.edit_client, item: task.sys_items, short_cut: 'F7', key_code: 118, icon: 'bi bi-filetype-js', editor: true},
@@ -648,7 +648,7 @@ function Events1() { // app_builder
 	}
 	
 	
-	function ace_shortcuts(task) {
+	function monaco_shortcuts(task) {
 	}
 	
 	function print_section(list, html) {
@@ -836,7 +836,7 @@ function Events1() { // app_builder
 	this.edit_database = edit_database;
 	this.show_lookup_lists = show_lookup_lists;
 	this.find_in_task = find_in_task;
-	this.ace_shortcuts = ace_shortcuts;
+	this.monaco_shortcuts = monaco_shortcuts;
 	this.print_section = print_section;
 	this.print_code = print_code;
 	this.do_import = do_import;
@@ -2986,6 +2986,8 @@ function Events8() { // app_builder.catalogs.sys_params
 			item._show_select_sql = item.f_show_select_sql.value;
 			item._theme = item.f_theme.value;
 			item._production = item.f_production.value;
+			item._ace_theme = item.f_ace_theme.value;
+	
 	
 			item.edit_options.width = 620;
 	
@@ -3005,7 +3007,7 @@ function Events8() { // app_builder.catalogs.sys_params
 				label_size: 5
 			});
 			item.create_inputs(intface, {
-				fields: ['f_theme', 'f_small_font', 'f_full_width', 'f_forms_in_tabs'],
+				fields: ['f_theme', 'f_ace_theme', 'f_small_font', 'f_full_width', 'f_forms_in_tabs'],
 				// in_well: false,
 				label_size: 5
 			});
@@ -3653,8 +3655,8 @@ task.events.events11 = new Events11();
 
 function Events14() { // app_builder.catalogs.sys_code_editor 
 
-	var EditSession = require('ace/edit_session').EditSession;
-	var UndoManager = require("ace/undomanager").UndoManager;
+	// var EditSession = require('ace/edit_session').EditSession;
+	// var UndoManager = require("ace/undomanager").UndoManager;
 	
 	function init_tabs(task) {
 		$("#content").show();
@@ -3742,12 +3744,49 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 		}
 	}
 	
+	
+	function getAceTheme(value) {
+		const themeMap = {
+			1: 'vs',
+			2: 'vs-dark',
+			3: 'hc-black',
+			4: 'hc-light'
+		};
+	
+		return themeMap[value] || 'vs'; // fallback to 'vs'
+	}
+	
+	
+	function do_init_editor(task) {
+		let theme = getAceTheme(task.sys_params.f_ace_theme.value);
+	
+		task.editor = monaco.editor.create(document.getElementById("editor"), {
+			value: "",
+			language: "plaintext",
+			theme: theme,
+			automaticLayout: true
+		});
+	}
+	
 	function init_editor(task) {
-		task.editor = ace.edit("editor");
-		task.editor.on('input', function() {
+		if (!window.monacoReady) {
+			// Delay initialization until Monaco loads
+			require(['vs/editor/editor.main'], function () {
+				do_init_editor(task);
+			});
+		} else {
+			do_init_editor(task);
+		}
+		// task.editor = ace.edit("editor");
+		// task.editor.on('input', function() {
+		//	 $("#code-editor #error-info").text('');
+		//	 update_buttons(task);
+		// });
+		task.editor.onDidChangeModelContent(function () {
 			$("#code-editor #error-info").text('');
 			update_buttons(task);
 		});
+	
 		task.code_editor.find('#ok-btn').click(function() {
 			save_edit(task, $('ul#task-tabs li button.active').attr('id'));
 		});
@@ -3757,10 +3796,10 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 				task.sys_search.find_in_task(task);
 			}
 		);
-		task.code_editor.find('#ace-btn')
-			.text(task.code_editor.find('#ace-btn').text().replace('ace_shortcuts', task.language.ace_shortcuts))
+		task.code_editor.find('#monaco-btn')
+			.text(task.code_editor.find('#monaco-btn').text().replace('monaco_shortcuts', task.language.ace_shortcuts))
 			.click(function() {
-				ace_shortcuts(task);
+				monaco_shortcuts(task);
 			}
 		);
 		task.code_editor.on('click', '#editor-tabs > .nav > li button', function() {
@@ -3795,44 +3834,59 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 			}
 		});
 	}
-	
 	function select_editor(task, tag) {
 		var info = task.tabs[tag],
-			session;
+			model;
+	
+		// --- save current tab view state before switching ---
+		if (task.editor && task.currentTag) {
+			const currentInfo = task.tabs[task.currentTag];
+			if (currentInfo) {
+				currentInfo.viewState = task.editor.saveViewState();
+			}
+		}
+	
 		if (task.editor === undefined) {
-			init_editor(task);
+			init_editor(task); // must call monaco.editor.create(...)
 		}
-		if (!info.session) {
-			session = new EditSession(info.doc);
-			session.setUndoManager(new UndoManager());
-			if (info.ext === 'py') {
-				session.setMode("ace/mode/python");
-				session.setOption("tabSize", 4);
-				session.setUseSoftTabs(true);
-			}
-			else if (info.ext === 'js') {
-				session.setMode("ace/mode/javascript");
-			}
-			else if (info.ext === 'html') {
-				session.setMode("ace/mode/html");
-			}
-			else if (info.ext === 'css') {
-				session.setMode("ace/mode/css");
-			}
-			info.session = session;
+	
+		if (!info.model) {
+			// Pick language based on extension
+			var language = "plaintext";
+			if (info.ext === "py") language = "python";
+			else if (info.ext === "js") language = "javascript";
+			else if (info.ext === "html") language = "html";
+			else if (info.ext === "css") language = "css";
+	
+			model = monaco.editor.createModel(info.doc, language);
+	
+			// Cache model for reuse
+			info.model = model;
+	
 			create_info_tabs(task, tag);
-			$(task.editor).focus();
+			$(task.editor.getDomNode()).focus();
+		} else {
+			model = info.model;
 		}
-		else {
-			session = info.session;
+	
+		// Attach model
+		task.editor.setModel(model);
+	
+		// --- restore cursor/scroll state for this tab ---
+		if (info.viewState) {
+			task.editor.restoreViewState(info.viewState);
 		}
-		task.editor.setSession(session);
-		task.editor.$blockScrolling = Infinity;
+		task.editor.focus();
+	
+		// Jam.py UI helpers
 		show_info_tabs(task, info);
 		update_buttons(task);
 		task.resize_elements(task);
-		task.editor.focus();
+	
+		// Remember which tag is active
+		task.currentTag = tag;
 	}
+	
 	
 	function show_info_tabs(task, info) {
 		task.code_editor.find("#editor-tabs").detach();
@@ -3864,12 +3918,73 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 		task.code_editor.find('#error-info').text(mess);
 	}
 	
+	// function get_modified(task) {
+	//	 return !task.editor.session.getUndoManager().isClean();
+	// }
+	
+	// function mark_clean(task) {
+	//	 task.editor.session.getUndoManager().markClean();
+	// }
 	function get_modified(task) {
-		return !task.editor.session.getUndoManager().isClean();
+		var editor = task.editor;
+		var model = editor && editor.getModel();
+		if (!model) return false;
+	
+		var info = null;
+		if (task.tabs) {
+			for (var tag in task.tabs) {
+				if (task.tabs.hasOwnProperty(tag) && task.tabs[tag].model === model) {
+					info = task.tabs[tag];
+					break;
+				}
+			}
+		}
+	
+		var cleanValue = info ? info._cleanValue : task._cleanValue;
+	
+		// If we never marked clean yet, consider it modified iff non-empty
+		if (cleanValue === undefined) return model.getValue().length > 0;
+	
+		return model.getValue() !== cleanValue;
 	}
 	
+	// function mark_clean(task) {
+		// task.editor.session.getUndoManager().markClean();
+	// }
+	// function mark_clean(task) {
+	//	 if (task.editor && task.editor.getModel()) {
+	//		 task.editor.getModel().pushStackElement();
+	//	 }
+	// }
+	
 	function mark_clean(task) {
-		task.editor.session.getUndoManager().markClean();
+		var editor = task.editor;
+		var model = editor && editor.getModel();
+		if (!model) return;
+	
+		// Find the active tab info that owns this model
+		var info = null;
+		if (task.tabs) {
+			for (var tag in task.tabs) {
+				if (task.tabs.hasOwnProperty(tag) && task.tabs[tag].model === model) {
+					info = task.tabs[tag];
+					break;
+				}
+			}
+		}
+	
+		var value = model.getValue();
+	
+		// Store per-model clean snapshot
+		if (info) {
+			info._cleanValue = value;
+		} else {
+			// fallback (single-tab scenarios)
+			task._cleanValue = value;
+		}
+	
+		// Optional: create an undo boundary at the save point
+		model.pushStackElement();
 	}
 	
 	function save_module(task, info) {
@@ -4029,7 +4144,7 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 	function decorate_tree_with_icons(task, tag) {
 		var info = task.tabs[tag];
 		var ext = info && info.ext;
-		console.log(ext);
+		// console.log(ext);
 	
 		$('.info-tree .tree-text').each(function () {
 			var $span = $(this);
@@ -4037,7 +4152,7 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 	
 			var tab = $span.closest('.info-tree').attr('id');
 	
-			if (tab !== 'module' && tab !== 'events') {
+			if (tab !== 'events') {
 				return; // Only decorate for module/events
 			}
 	
@@ -4071,48 +4186,68 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 		update_tab_height(task);
 	}
 	
+	
 	function tree_node_clicked(task, tag, $li) {
 		var info = task.tabs[tag],
 			tab = $li.closest('.info-tree').attr('id'),
-			node_text = $li.find('span.tree-text:first').data('name'),
+			node_text = $li.find('span.tree-text:first').data('name') ||
+								$li.find('span.tree-text:first').text().trim(),
 			text,
 			result,
 			params;
 	
 		if (tab === 'module') {
-			task.editor.gotoLine(1);
+			gotoLine(task.editor, 1);
 			if (info.ext === 'py') {
 				text = 'def ' + node_text;
-			}
-			else {
+			} else {
 				text = 'function ' + node_text;
 			}
 			result = find_text(task, text);
 		}
 		else if (tab === 'events') {
-			task.editor.gotoLine(1);
+			gotoLine(task.editor, 1);
 			if (!find_text(task, node_text + '(')) {
 				params = info.events[node_text];
-				task.editor.gotoLine(task.editor.session.getLength() + 1);
+				gotoLine(task.editor, task.editor.getModel().getLineCount() + 1);
 				if (info.ext === 'py') {
 					text = 'def ' + node_text + '(' + params + '):\n\tpass';
-				}
-				else {
+				} else {
 					text = 'function ' + node_text + '(' + params + ') {\n\n}';
 				}
-				task.editor.insert('\n\n' + text);
+				insertText(task.editor, '\n\n' + text);
 			}
 		}
 		else if (tab === 'task' || tab === 'fields') {
-			task.editor.insert(node_text);
+			insertText(task.editor, node_text);
 		}
 		else if (tab === 'templates') {
-			task.editor.gotoLine(1);
+			gotoLine(task.editor, 1);
 			text = node_text;
 			find_text(task, text);
 		}
 		task.editor.focus();
 	}
+	
+	function gotoLine(editor, line) {
+		if (!editor || !editor.getModel()) return;
+		line = Math.max(1, line); // avoid 0 or negative
+		editor.setPosition({ lineNumber: line, column: 1 });
+		editor.revealLineInCenter(line);
+	}
+	
+	function insertText(editor, text) {
+		if (!editor || !editor.getModel()) return;
+		var position = editor.getPosition();
+		editor.executeEdits("", [{
+			range: new monaco.Range(position.lineNumber, position.column, position.lineNumber, position.column),
+			text: text,
+			forceMoveMarkers: true
+		}]);
+		// move cursor to end of inserted text
+		editor.setPosition({ lineNumber: position.lineNumber + text.split("\n").length - 1, column: 1 });
+	}
+	
 	
 	function set_info_grids_height() {
 		task.code_editor.find('#info-grids').height(
@@ -4144,14 +4279,39 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 		}
 	}
 	
+	// function find_text(task, text) {
+	//	 return task.editor.find(text, {
+	//		 backwards: false,
+	//		 wrap: false,
+	//		 caseSensitive: true,
+	//		 wholeWord: true,
+	//		 regExp: false
+	//	 });
+	// }
 	function find_text(task, text) {
-		return task.editor.find(text, {
-			backwards: false,
-			wrap: false,
-			caseSensitive: true,
-			wholeWord: true,
-			regExp: false
-		});
+		if (!task.editor || !task.editor.getModel()) return false;
+		if (!text) return false;
+	
+		var model = task.editor.getModel();
+	
+		// Monaco returns an array of matches
+		var matches = model.findMatches(
+			text,
+			false, // search start from beginning of model
+			false, // match case
+			false, // whole word
+			false, // regExp
+			1000   // maxResults
+		);
+	
+		if (matches.length === 0) return false;
+	
+		// Move cursor to first match and reveal
+		var range = matches[0].range;
+		task.editor.setSelection(range);
+		task.editor.revealRangeInCenter(range);
+	
+		return true;
 	}
 	
 	function resize(task, height) {
@@ -4182,45 +4342,23 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 			info_grids.show();
 			update_tab_height(task);
 			if (task.editor) {
-				task.editor.resize();
+				// task.editor.resize();
 			}
 		}
 	}
 	
-	function ace_shortcuts(task) {
-		// task.sys_code_editor.ace_shortcuts(task);
-		var url = "https://github.com/ajaxorg/ace/wiki/Default-Keyboard-Shortcuts" ;
+	function monaco_shortcuts(task) {
+		// task.sys_code_editor.monaco_shortcuts(task);
+		var url = "https://github.com/microsoft/monaco-editor/wiki/Monaco-Editor-Accessibility-Guide" ;
 		window.open(encodeURI(url));
-	
-		// var result,
-		//	 i,
-		//	 $p,
-		//	 lines,
-		//	 width = $(window).width() - 50,
-		//	 height = $(window).height() - 200,
-		//	 html = $('<div>');
-		//	 result = task.language.ace_shortcuts_value;
-		//	 console.log(result);
-		//	 if (result) {
-		//		 html.append($('<h4>Ace shortcuts</h4>'));
-		//		 lines = result.split('\n');
-		//		 for (i = 0; i < lines.length; i++) {
-		//			 $p = $('<p style="margin: 0px;">').text(lines[i]);
-		//			 $p.css("font-family", "'Courier New', Courier, monospace");
-		//			 html.append($p);
-		//		 }
-		//		 task.message(html,
-		//			 {title: 'ace_shortcuts', margin: 10, width: width, height: height,
-		//				 text_center: false, buttons: {"Close": undefined}, center_buttons: false, print: true}
-		//		 );
-		//	 }
-	   
 	}
 	this.init_tabs = init_tabs;
 	this.show_tab = show_tab;
 	this.show_editor = show_editor;
 	this.close_editor = close_editor;
 	this.close_query = close_query;
+	this.getAceTheme = getAceTheme;
+	this.do_init_editor = do_init_editor;
 	this.init_editor = init_editor;
 	this.select_editor = select_editor;
 	this.show_info_tabs = show_info_tabs;
@@ -4237,11 +4375,13 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 	this.decorate_tree_with_icons = decorate_tree_with_icons;
 	this.info_tab_clicked = info_tab_clicked;
 	this.tree_node_clicked = tree_node_clicked;
+	this.gotoLine = gotoLine;
+	this.insertText = insertText;
 	this.set_info_grids_height = set_info_grids_height;
 	this.update_tab_height = update_tab_height;
 	this.find_text = find_text;
 	this.resize = resize;
-	this.ace_shortcuts = ace_shortcuts;
+	this.monaco_shortcuts = monaco_shortcuts;
 }
 
 task.events.events14 = new Events14();

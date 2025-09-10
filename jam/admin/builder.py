@@ -24,6 +24,7 @@ import jam.langs as langs
 
 LOOKUP_LISTS = {
         'f_theme': consts.THEMES,
+        'f_ace_theme': consts.ACE_THEMES,
         'f_db_type': consts.DB_TYPE,
         'f_data_type': consts.FIELD_TYPES,
         'f_alignment': consts.ALIGNMENT,

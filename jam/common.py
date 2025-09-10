@@ -82,6 +82,7 @@ class Consts(object):
         'bootstrap-quartz.css', 'bootstrap-flatly.css', 'bootstrap-journal.css',
         'bootstrap-darkly.css ', 'bootstrap-united.css', 'bootstrap-cosmo.css',
         'bootstrap-materia.css', 'bootstrap-morph.css')
+    ACE_THEMES = ('vs', 'vs-dark', 'hc-black', 'hc-light')
     PROJECT_NONE, PROJECT_NO_PROJECT, PROJECT_LOADING, PROJECT_ERROR, \
         PROJECT_NOT_LOGGED, PROJECT_LOGGED, PROJECT_MAINTAINANCE, \
         PROJECT_MODIFIED, RESPONSE = range(1, 10)

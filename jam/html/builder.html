@@ -82,7 +82,7 @@
                                     <span id="error-info" class="text-danger fs-5 fw-bold"></span>
                                 </div>
                                 <div>
-                                    <button type="button" id="ace-btn" class="btn btn-secondary"><i class="bi bi-search"></i> ace_shortcuts<small class="muted">&nbsp;[Alt+U]</small></button>
+                                    <button type="button" id="monaco-btn" class="btn btn-secondary"><i class="bi bi-search"></i> monaco_shortcuts<small class="muted">&nbsp;[Alt+U]</small></button>
                                     <button type="button" id="find-btn" class="btn btn-secondary"><i class="bi bi-search"></i> find_in_task<small class="muted">&nbsp;[Alt+F]</small></button>
                                     <button type="button" id="ok-btn" class="btn btn-primary"><i class="icon-ok"></i> OK<small class="muted">&nbsp;[Ctrl+S]</small></button>
                                 </div>
@@ -520,8 +520,45 @@
         <script src="jam/js/bootstrap-datepicker.js"></script>
         <script src="jam/js/jquery.maskedinput.js"></script>
         <script type="module" src="jam/js/jam.js"></script>
-        <script src="jam/js/ace/ace.js"></script>
+        <!-- <script src="jam/js/ace/ace.js"></script> -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs/loader.min.js"></script>
+        <script>
+            require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' } });
+        
+            // Preload Monaco
+            require(['vs/editor/editor.main'], function () {
+                window.monacoReady = true;
+            });
+        </script> -->
+        <!-- Load the AMD loader -->
+        <script src="/jam/js/min/vs/loader.js"></script>
 
+        <script>
+        (function() {
+            // Wait until loader.js has defined 'require'
+            function waitForRequire(callback) {
+                if (typeof require === 'function') {
+                    callback();
+                } else {
+                    setTimeout(function() { waitForRequire(callback); }, 50);
+                }
+            }
+
+            waitForRequire(function() {
+                // Configure the paths for Monaco
+                require.config({ paths: { vs: '/jam/js/min/vs' } });
+
+                // Load the main editor module
+                require(['vs/editor/editor.main'], function() {
+                    window.monacoReady = true;
+                    // console.log('Monaco editor is ready!');
+
+
+                });
+            });
+        })();
+        </script>
+  
         <script>
             $(document).ready(function(){
                 task.ID = 0; task.load();
