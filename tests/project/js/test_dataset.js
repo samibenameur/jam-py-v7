@@ -4,15 +4,22 @@ var assert = chai.assert,
 describe('Dataset', function() {
     var ds;
 
+    function createDataset() {
+        if (task.item && typeof task.item.copy === "function") {
+            return task.item.copy();
+        }
+        throw new Error("No dataset instance available (task.item missing)");
+    }
+
     beforeEach(function() {
-        ds = new task.Item()
+        ds = createDataset();
         ds.open({open_empty: true});
     });
 
     describe('test_open', function () {
         it('Testing open method with open_empty option', function() {
             let counter = 0;
-            ds = new task.Item()
+            ds = createDataset();
             ds.on_before_scroll = function(d) {
                 assert.equal(counter, 0);
                 counter += 1;
@@ -68,7 +75,7 @@ describe('Dataset', function() {
     });
 
     describe('test_cancel', function () {
-        it('Testing cncel method', function() {
+        it('Testing cancel method', function() {
             let counter = 0;
             ds.append();
             ds.on_before_cancel = function(d) {
@@ -218,7 +225,7 @@ describe('Dataset', function() {
 
             ds.first();
             assert.equal(ds.rec_no, 0);
-            i = 0
+            let i = 0
             while(!ds.eof()) {
                 assert.equal(ds.rec_no, i);
                 ds.next()
@@ -255,3 +262,4 @@ describe('Dataset', function() {
     });
 
 });
+
