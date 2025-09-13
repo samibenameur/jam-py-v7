@@ -881,7 +881,11 @@ class AbsrtactItem {
                 if (form.hasClass('modal-form')) {
                     setTimeout(
                         function() {
-                            self['modal_' + form_type + '_object'].close_form();
+							let key = 'modal_' + form_type + '_object';
+							if (self[key]) {
+								self['modal_' + form_type + '_object'].close_form();
+							}
+                            //self['modal_' + form_type + '_object'].close_form();
                             this[form_name] = undefined;
                             self._process_event(options.form_type, 'closed');
                             form.data('_closing', false);
