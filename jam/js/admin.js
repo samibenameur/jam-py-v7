@@ -3887,7 +3887,7 @@ function Events04() { // app_builder.catalogs.sys_code_editor
 	}
 	
 	function close_query(task, tag, callback) {
-		if (!get_modified(task)) {
+		if (get_modified(task)) {
 			task.yes_no_cancel(task.language.save_changes,
 				function() {
 					save_edit(task, tag);
