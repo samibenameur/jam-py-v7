@@ -164,6 +164,7 @@ function Events1() { // app_builder
 			task.code_editor = $("#code-editor");
 	
 			task.sys_code_editor.init_tabs(task);
+			task.sys_code_editor.init_tab_shortcuts(task);
 	
 			task.item_tree = task.sys_items.copy({handlers: false, details: false});
 	
@@ -3672,6 +3673,165 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 			close_editor(task, $(this).parent().attr('id'));
 		});
 	}
+	function init_tab_shortcuts(task) {
+		$(document).on('keydown', function(e) {
+			let current = $('#task-tabs li.active button').attr('id');
+			let ids = Object.keys(task.tabs);
+			let idx = ids.indexOf(current);
+	
+			// Ctrl+Alt+Right = next tab
+			if (e.ctrlKey && e.altKey && e.key === "ArrowRight") {
+				e.preventDefault();
+				if (idx >= 0) {
+					let next = ids[(idx + 1) % ids.length];
+					show_tab(task, next);
+				}
+			}
+	
+			// Ctrl+Alt+Left = prev tab
+			if (e.ctrlKey && e.altKey && e.key === "ArrowLeft") {
+				e.preventDefault();
+				if (idx >= 0) {
+					let prev = ids[(idx - 1 + ids.length) % ids.length];
+					show_tab(task, prev);
+				}
+			}
+	
+			// Ctrl+Alt+Shift+W = close current tab
+			if (e.ctrlKey && e.altKey && e.shiftKey && e.key.toLowerCase() === "w") {
+				e.preventDefault();
+				if (current) {
+					close_editor(task, current);
+				}
+			}
+		});
+	}
+	// call this after you create the Monaco editor (e.g. after task.editor is initialized)
+	function bindMonacoTabShortcuts(editor, task) {
+		if (!editor || !window.monaco) return;
+	
+		function changeTabByOffset(offset) {
+			// use DOM order so tab order matches what user expects
+			const ids = $('#task-tabs li button').map(function(){ return $(this).attr('id'); }).get();
+			const current = $('#task-tabs li.active button').attr('id');
+			let idx = ids.indexOf(current);
+			if (idx === -1) idx = 0;
+			const next = ids[(idx + offset + ids.length) % ids.length];
+			if (next) show_tab(task, next);
+		}
+	
+		// Ctrl/Cmd + Alt + Right
+		editor.addCommand(
+			monaco.KeyMod.CtrlCmd | monaco.KeyMod.Alt | monaco.KeyCode.RightArrow,
+			() => { changeTabByOffset(1); }
+		);
+	
+		// Ctrl/Cmd + Alt + Left
+		editor.addCommand(
+			monaco.KeyMod.CtrlCmd | monaco.KeyMod.Alt | monaco.KeyCode.LeftArrow,
+			() => { changeTabByOffset(-1); }
+		);
+	
+		// Ctrl/Cmd + Alt + Shift + W  -> close tab
+		editor.addCommand(
+			monaco.KeyMod.CtrlCmd | monaco.KeyMod.Alt | monaco.KeyMod.Shift | monaco.KeyCode.KEY_W,
+			() => {
+				const current = $('#task-tabs li.active button').attr('id');
+				if (current) close_editor(task, current);
+			}
+		);
+	}
+	function init_global_tab_shortcuts(task) {
+		function changeTabByOffset(offset) {
+			const ids = $('#task-tabs li button').map(function(){ return $(this).attr('id'); }).get();
+			const current = $('#task-tabs li.active button').attr('id');
+			let idx = ids.indexOf(current);
+			if (idx === -1) idx = 0;
+			const next = ids[(idx + offset + ids.length) % ids.length];
+			if (next) show_tab(task, next);
+		}
+	
+		window.addEventListener('keydown', function(e) {
+			// debug tip: uncomment to inspect real events
+			console.log('global keydown', e.code, e.key, 'ctrl', e.ctrlKey, 'alt', e.altKey, 'meta', e.metaKey, 'shift', e.shiftKey);
+	
+			// ignore if user is typing in a normal input/textarea (but still allow if focus is Monaco)
+			const active = document.activeElement;
+			const isPlainInput = active && (active.tagName === 'INPUT' || active.tagName === 'TEXTAREA');
+			if (isPlainInput && !active.classList.contains('monaco-editor')) return;
+	
+			// Use e.code for layout-independence (ArrowLeft/Right, KeyW)
+			const ctrlOrCmd = e.ctrlKey || e.metaKey;
+	
+			// Ctrl/Cmd + Alt + Right
+			if (ctrlOrCmd && e.altKey && e.code === 'ArrowRight') {
+				console.log("Navigating to tab id:");
+	
+				e.preventDefault();
+				changeTabByOffset(1);
+				return;
+			}
+	
+			// Ctrl/Cmd + Alt + Left
+			if (ctrlOrCmd && e.altKey && e.code === 'ArrowLeft') {
+				console.log("Navigating to tab id:");
+	
+				e.preventDefault();
+				changeTabByOffset(-1);
+				return;
+			}
+	
+			// Ctrl/Cmd + Alt + Shift + W -> close
+			if (ctrlOrCmd && e.altKey && e.shiftKey && e.code === 'KeyW') {
+				e.preventDefault();
+				const current = $('#task-tabs li.active button').attr('id');
+				if (current) close_editor(task, current);
+				return;
+			}
+		}, true); // <-- capture = true
+	}
+	window.addEventListener('keydown', function(e) {
+		if (e.ctrlKey && e.altKey && e.shiftKey && e.code === 'KeyW') {
+			e.preventDefault();
+			let current = $('#task-tabs button.nav-link.active').attr('id');  // ✅ fixed selector
+			// console.log("Closing tab id:", current);
+			if (current) {
+				close_editor(task, current);
+			} else {
+				console.warn("No active tab found!");
+			}
+		} 
+	}, true);
+	
+	
+	function switchTab(offset) {
+		let $buttons = $('#task-tabs button.nav-link');   // all tab buttons
+		let $active = $('#task-tabs button.nav-link.active'); // active tab button
+		let idx = $buttons.index($active);
+		if (idx === -1) return;
+	
+		let nextIdx = (idx + offset + $buttons.length) % $buttons.length;
+		let nextId = $buttons.eq(nextIdx).attr('id');
+		if (nextId) show_tab(task, nextId);
+		console.log("Navigating to tab id:");
+	
+	}
+	
+	window.addEventListener('keydown', function(e) {
+		const ctrlOrCmd = e.ctrlKey || e.metaKey;
+	
+		if (ctrlOrCmd && e.altKey && e.code === 'ArrowRight') {
+			console.log("Navigating to tab id:");
+	
+			e.preventDefault();
+			switchTab(1);
+		}
+	
+		if (ctrlOrCmd && e.altKey && e.code === 'ArrowLeft') {
+			e.preventDefault();
+			switchTab(-1);
+		}
+	}, true);
 	
 	function show_tab(task, tag) {
 		$('ul#task-tabs li button').removeClass('active');
@@ -3727,7 +3887,7 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 	}
 	
 	function close_query(task, tag, callback) {
-		if (get_modified(task)) {
+		if (!get_modified(task)) {
 			task.yes_no_cancel(task.language.save_changes,
 				function() {
 					save_edit(task, tag);
@@ -4353,6 +4513,10 @@ function Events14() { // app_builder.catalogs.sys_code_editor
 		window.open(encodeURI(url));
 	}
 	this.init_tabs = init_tabs;
+	this.init_tab_shortcuts = init_tab_shortcuts;
+	this.bindMonacoTabShortcuts = bindMonacoTabShortcuts;
+	this.init_global_tab_shortcuts = init_global_tab_shortcuts;
+	this.switchTab = switchTab;
 	this.show_tab = show_tab;
 	this.show_editor = show_editor;
 	this.close_editor = close_editor;
