@@ -48,6 +48,7 @@ Live demos on PythonAnywhere:
 
   
 - [The ERP POC Demo with Italian and English translations](https://sem.pythonanywhere.com)
+- [Sir Edward Elgar Discography - or any discography](https://elgar.pythonanywhere.com/)
 - [Assets/Parts Application (wip, currently Jam V7 Demo)](https://jampy.pythonanywhere.com)
 - [Machine Learning (wip)](https://mlearning.pythonanywhere.com)
 - [Auto Parts Sales for Brazilian Market (Portuguese)](https://carparts.pythonanywhere.com)
