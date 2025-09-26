@@ -122,7 +122,9 @@ class DBAbstractInput {
 		//zebra_date_picker
 		if (field_type === consts.DATE || field_type === consts.DATETIME) {
 			this.$container.find('button.last-btn').hide();
+			this.$container.attr("id", this.field.field_name  + "_zebra_date_picker"); 
 			this.$input.attr("data-zdp_readonly_element", "false");
+			this.$input.addClass("rounded-0 rounded-end-3"); 
 			this.show_date_picker();
 		}
 
@@ -555,7 +557,7 @@ class DBAbstractInput {
             format = task.locale.D_T_FMT.replace(/%/g, "").replace(/M/g, "i");
         }
 		
-		//new zebra_date_picker
+		//zebra_date_picker
 		this.$input.Zebra_DatePicker(
             {
 				first_day_of_week: parseInt(task.language.week_start, 10),
@@ -565,10 +567,11 @@ class DBAbstractInput {
 				months_abbr: task.language.months_short.slice(1, -1).split(','),
 				show_icon: true,
 				inside: true,
+				open_icon_only: true,
 				lang_clear_date: task.language.delete,
 				show_clear_date: false,
 				show_select_today: task.language.today,
-				enabled_minutes: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55],
+				//enabled_minutes: [0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55],
 				
 				onSelect: function(dateString, dateObj, instance) {
 					self.field.value = instance;

@@ -65,7 +65,8 @@
     width: 25%
 }
 .Zebra_DatePicker .dp_body .dp_current {
-    color: #cc236b
+    background: #bc7777;
+    color: #fff
 }
 .Zebra_DatePicker .dp_body .dp_selected {
     background: #b56a6a;

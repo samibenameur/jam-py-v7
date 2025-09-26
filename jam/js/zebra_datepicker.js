@@ -1258,7 +1258,7 @@
                                 marginTop:      0,
                                 marginRight:    0,
                                 marginBottom:   0,
-                                marginLeft:     0
+                                marginLeft:     -1
                             });
 
                             // create the actual calendar icon (show a disabled icon if the element is disabled)
